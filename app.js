@@ -4,7 +4,6 @@ const indexRouter = require('./routes/index');
 const app = express();
 const PORT = 3001;
 
-// Database connection setup
 mongoose.connect('mongodb://localhost:27017/ASM_ADN103', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -12,14 +11,13 @@ mongoose.connect('mongodb://localhost:27017/ASM_ADN103', {
 .then(() => console.log('DB Connected!!!!!!'))
 .catch(err => console.log('DB Error: ', err));
 
-// Middleware
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Routes
+
 app.use('/', indexRouter);
 
-// Error handler
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send('error');
