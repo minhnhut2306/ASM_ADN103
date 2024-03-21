@@ -3,15 +3,15 @@ var router = express.Router();
 
 var User = require('../modules/user/UserModule');
 
-/* GET users listing. */
+
 router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
 router.get('/login', function (req, res) {
   const { email, password } = req.query;
-  const user = users.find(u => u.email === email && u.password === password);
-  if (user) {// nếu user khác null
+  const user = user.find(u => u.email === email && u.password === password);
+  if (user) {
     res.render('index', { kq: 'Đăng nhập thành công' });
     res.json(user)
   }
