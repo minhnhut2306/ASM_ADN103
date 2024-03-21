@@ -55,24 +55,6 @@ const tree = [
       origin: "Châu Phi",
     },
   },
-
-  // { id: 2,
-  //      images: "Chưa muốn kiếm hình",
-  //       name: "Song of India",
-  //        properties: "Ưa Sáng",
-  //         Size: "Lớn",
-  //          quantity: "150",
-  //           origin: "Châu Mỹ",
-  //            details: "Chi tiết sản phẩm" },
-
-  // { id: 3,
-  //      images: "Chưa muốn kiếm hình",
-  //       name: "Pink Anthurium",
-  //        properties: "Ưa Ẩm",
-  //         Size: "Trung",
-  //          quantity: "300",
-  //           origin: "Nam Cực",
-  //            details: "Chi tiết sản phẩm" },
 ];
 router.get("/GetById", function (req, res, next) {
   const { id } = req.query;

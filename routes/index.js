@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var portc = 3000
+// routes/index.js
+const express = require('express');
+const router = express.Router();
+const NhieuUserRouter = require('./../src/NhieuUser');
+const auth = require('./../src/auth');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Nguyễn Minh Nhựt' });
-});
+router.use('/', NhieuUserRouter);
+router.use('/', auth);
 
 module.exports = router;
