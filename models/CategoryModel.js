@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const CategorySchema = new Schema({
-    name: {type: String, required: true},
-    parentId:{type : ObjectId, ref:'categoryes'}
+    name: { type: String, required: true },
+    parentId: { type: ObjectId, ref: 'Category' }
 });
-module.exports = mongoose.model('categoryes', CategorySchema);
+
+module.exports = mongoose.model('Category', CategorySchema)

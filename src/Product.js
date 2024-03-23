@@ -31,9 +31,9 @@ const getSub = async (category) => {
   }
 };
 
-const insert = async (name, price, category, species, size, origin, status, image) => {
+const insert = async (name, price, category, size, origin, status, image) => {
   try {
-    const Products = new ProductModel({ name, price, category, species, size, origin, status, image });
+    const Products = new ProductModel({ name, price, category, size, origin, status, image });
     await Products.save();
     return Products;
   } catch (error) {
@@ -42,9 +42,9 @@ const insert = async (name, price, category, species, size, origin, status, imag
   }
 };
 
-const update = async (productId, name, price, category, species, size, origin, status, image) => {
+const update = async (productId, name, price, category, size, origin, status, image) => {
   try {
-    const Products = await ProductModel.findByIdAndUpdate(productId, { name, price, category, species, size, origin, status, image }, { new: true });
+    const Products = await ProductModel.findByIdAndUpdate(productId, { name, price, category, size, origin, status, image }, { new: true });
     return Products;
   } catch (error) {
     console.error("Lỗi", error);

@@ -1,64 +1,68 @@
-const express = require("express");
-const CategoryModel = require("../models/CategoryModel");
+var express = require("express");
+var router = express.Router();
+var CategoryModule = require("./../models/CategoryModel");
 
 const getAll = async () => {
   try {
-    const categories = await CategoryModel.find({});
+    const categories = await CategoryModule.find();
     return categories;
   } catch (error) {
-    console.error("Lỗi", error);
-    throw error; 
+    console.log(error);
   }
 };
 
-const getParent = async (parentId) => {
+const getParent = async () => {
   try {
-    const parentCategories = await CategoryModel.find({ parentId: null });
-    return parentCategories;
+    const categories = await CategoryModule.find({ parentId: null });
+    return categories;
   } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
+    console.log(error);
   }
 };
 
 const getSub = async (parentId) => {
   try {
-    const subCategories = await CategoryModel.find({ parentId });
-    return subCategories;
+    const categories = await CategoryModule.find(parentId).populate(
+      "paretnId",
+      "_id name"
+    );
+    return categories;
   } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
+    console.log(error);
   }
 };
 
 const insert = async (name, parentId) => {
   try {
-    const category = new CategoryModel({ name, parentId });
-    await category.save();
-    return category;
+    const categories = new CategoryModule({ name: name, parentId: parentId });
+    await categories.save();
+    return categories;
   } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
+    console.log(error);
   }
 };
 
-const update = async (categoryId, name, parentId) => {
+const update = async (CatId, name, parentId) => {
   try {
-    const category = await CategoryModel.findByIdAndUpdate(categoryId, { name, parentId }, { new: true });
-    return category;
+    const categories = CategoryModule.findByIdAndUpdate(CatId, {
+      name: name,
+      parentId: parentId,
+    });
+    return categories;
   } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
+    console.log(error);
   }
 };
 
-const remove = async (categoryId) => {
+const remove = async (CatId) => {
   try {
-    await CategoryModel.deleteOne({ _id: categoryId });
+    const deletedCategory = await CategoryModule.findByIdAndDelete(CatId);
+    return deletedCategory;
   } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
+    console.log(error);
+    throw error; 
   }
 };
+
 
 module.exports = { getAll, getParent, getSub, insert, update, remove };
