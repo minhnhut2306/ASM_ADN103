@@ -4,12 +4,11 @@ const { register, login } = require("../models/User/UserController");
 
 router.post("/register", async (req, res) => {
   const { name, phone, email, password } = req.body;
-
   try {
     const existingUser = await register(name, email, phone, password);
     if (existingUser) {
       return res.json({
-        success: "Đăng ký thành công. Đăng nhập ngay bây giờ!",
+        success: "Đăng ký thành công. Đăng nhập lẹ lên !",
         user: existingUser,
       });
     }
