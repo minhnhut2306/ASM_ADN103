@@ -2,19 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Bill = new Schema({
-  customername: {
-    type: String,
-    required: true,
-  },
-  costomeremail: {
-    type: String,
-    required: true,
-  },
+
   costomeraddress: {
-    type: String,
-    required: true,
-  },
-  costomerphone: {
     type: String,
     required: true,
   },
@@ -26,6 +15,10 @@ const Bill = new Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+  }
 });
 
 module.exports = mongoose.model("bill", Bill);

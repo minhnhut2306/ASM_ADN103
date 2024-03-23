@@ -14,16 +14,17 @@ router.get("/category/add", async function (req, res) {
     res.status(200).json({ category });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Lỗi" });
   }
 });
 
-router.put("/category/update", async (req, res) => {
+router.put("/category/update/:id", async (req, res) => {
   try {
     const { categoryId, name, parentId } = req.body;
+    // const categoryId = req.params.id;
     if (!categoryId || !name) {
       return res.status(400).json({
-        message: "Please provide categoryId and name",
+        message: "Vui lòng nhập id và tên",
       });
     }
     let category;
@@ -33,30 +34,31 @@ router.put("/category/update", async (req, res) => {
       category = await productService.update(categoryId, name, parentId);
     }
     res.status(200).json({
-      message: "Category updated successfully",
+      message: "Thêm thành công",
       category,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Thêm thất bại" });
   }
 });
 
-router.delete("/category/delete", async (req, res) => {
+router.delete("/category/delete/:id", async (req, res) => {
   try {
-    const { categoryId } = req.body;
+    // const { categoryId } = req.body;
+    const categoryId = req.params.id;
     const deletedCategory = await productService.remove(categoryId);
     if (!deletedCategory) {
       return res.status(404).json({
-        message: "Category not found",
+        message: "Không tìm thấy categories",
       });
     }
     res.status(200).json({
-      message: "Category deleted successfully",
+      message: "Xóa thành công",
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Sửa thất bại" });
   }
 });
 

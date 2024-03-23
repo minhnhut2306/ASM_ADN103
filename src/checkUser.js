@@ -9,8 +9,8 @@ router.get('/users', async (req, res) => {
     console.log('Users:', users);
     res.json(users);
   } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('lỗi', error);
+    res.status(500).json({ error: 'lỗi' });
   }
 });
 

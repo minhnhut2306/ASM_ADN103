@@ -8,21 +8,20 @@ router.post("/register", async (req, res) => {
     const existingUser = await register(name, email, phone, password);
     if (existingUser) {
       return res.json({
-        success: "Đăng ký thành công. Đăng nhập lẹ lên !",
+        success: "Đăng ký thành công!",
         user: existingUser,
       });
     }
   } catch (error) {
     console.error("Lỗi khi đăng ký người dùng:", error);
     res.status(500).json({
-      error: "Đã xảy ra lỗi khi đăng ký người dùng. Vui lòng thử lại.",
+      error: "Lỗi",
     });
   }
 });
 
 router.get("/login", async (req, res) => {
   const { email, password } = req.query;
-
   try {
     const user = await login(email, password);
     if (user) {
