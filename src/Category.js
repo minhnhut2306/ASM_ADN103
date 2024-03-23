@@ -1,68 +1,63 @@
-var express = require("express");
-var router = express.Router();
-var CategoryModule = require("./../models/CategoryModel");
+const express = require("express");
+const router = express.Router();
+const productService = require("../models/Category/CategoryController");
 
-const getAll = async () => {
+router.get("/category/add", async function (req, res) {
   try {
-    const categories = await CategoryModule.find();
-    return categories;
+    const { name, parentId } = req.query;
+    let category;
+    if (parentId === "") {
+      category = await productService.insert(name, null);
+    } else {
+      category = await productService.insert(name, parentId);
+    }
+    res.status(200).json({ category });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-};
+});
 
-const getParent = async () => {
+router.put("/category/update", async (req, res) => {
   try {
-    const categories = await CategoryModule.find({ parentId: null });
-    return categories;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getSub = async (parentId) => {
-  try {
-    const categories = await CategoryModule.find(parentId).populate(
-      "paretnId",
-      "_id name"
-    );
-    return categories;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const insert = async (name, parentId) => {
-  try {
-    const categories = new CategoryModule({ name: name, parentId: parentId });
-    await categories.save();
-    return categories;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const update = async (CatId, name, parentId) => {
-  try {
-    const categories = CategoryModule.findByIdAndUpdate(CatId, {
-      name: name,
-      parentId: parentId,
+    const { categoryId, name, parentId } = req.body;
+    if (!categoryId || !name) {
+      return res.status(400).json({
+        message: "Please provide categoryId and name",
+      });
+    }
+    let category;
+    if (parentId === "") {
+      category = await productService.update(categoryId, name, null);
+    } else {
+      category = await productService.update(categoryId, name, parentId);
+    }
+    res.status(200).json({
+      message: "Category updated successfully",
+      category,
     });
-    return categories;
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-};
+});
 
-const remove = async (CatId) => {
+router.delete("/category/delete", async (req, res) => {
   try {
-    const deletedCategory = await CategoryModule.findByIdAndDelete(CatId);
-    return deletedCategory;
+    const { categoryId } = req.body;
+    const deletedCategory = await productService.remove(categoryId);
+    if (!deletedCategory) {
+      return res.status(404).json({
+        message: "Category not found",
+      });
+    }
+    res.status(200).json({
+      message: "Category deleted successfully",
+    });
   } catch (error) {
     console.log(error);
-    throw error; 
+    res.status(500).json({ error: "Internal Server Error" });
   }
-};
+});
 
-
-module.exports = { getAll, getParent, getSub, insert, update, remove };
+module.exports = router;

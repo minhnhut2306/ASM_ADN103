@@ -1,64 +1,59 @@
 const express = require("express");
-const ProductModel = require("../models/ProductModel");
+const router = express.Router();
+const productService = require("../models/Product/ProductController");
 
-const getAll = async () => {
+router.post("/products/add", async (req, res) => {
   try {
-    const products = await ProductModel.find({});
-    return products;
+    const { name, price, category, size, origin, status, image } = req.body;
+    const newProduct = await productService.insert(
+      name,
+      price,
+      category,
+      size,
+      origin,
+      status,
+      image
+    );
+    res.status(201).json(newProduct);
   } catch (error) {
-    console.error("Lỗi", error);
-    throw error; 
+    console.error("Error adding product:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
-};
+});
 
-const getParent = async () => {
+router.put("/products/update", async (req, res) => {
   try {
-    const parentProduct = await ProductModel.find({ category: null });
-    return parentProduct;
+    const productId = req.body.productId;
+    const { name, price, category, size, origin, status, image } = req.body;
+    console.log(productId);
+    console.log(req.body);
+    const updatedProduct = await productService.update(
+      productId,
+      name,
+      price,
+      category,
+      size,
+      origin,
+      status,
+      image
+    );
+    res.json(updatedProduct);
   } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
+    console.error("Error updating product:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
-};
+});
 
-const getSub = async (category) => {
+
+router.delete("/products/delete", async (req, res) => {
   try {
-    const subProducts = await ProductModel.find({ category });
-    return subProducts;
+    const productId = req.body.productId;
+    await productService.remove(productId);
+    res.status(204).end();
   } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
+    console.error("Error deleting product:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
-};
+});
 
-const insert = async (name, price, category, size, origin, status, image) => {
-  try {
-    const Products = new ProductModel({ name, price, category, size, origin, status, image });
-    await Products.save();
-    return Products;
-  } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
-  }
-};
-
-const update = async (productId, name, price, category, size, origin, status, image) => {
-  try {
-    const Products = await ProductModel.findByIdAndUpdate(productId, { name, price, category, size, origin, status, image }, { new: true });
-    return Products;
-  } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
-  }
-};
-
-const remove = async (productId) => {
-  try {
-    await ProductModel.deleteOne({ _id: productId });
-  } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
-  }
-};
-
-module.exports = { getAll, getParent, getSub, insert, update, remove };
+module.exports = router;
