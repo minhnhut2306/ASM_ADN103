@@ -1,13 +1,24 @@
 const UserModel = require("../User/UserModel");
 const bcrypt = require("bcryptjs");
 
-const register = async (name, email, phone, password) => {
+const register = async (fullName, email, phoneNumber, password) => {
   try {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(password, salt);
-    const user = new UserModel({ name, email, phone, password: hash });
-    await user.save();
-    return user;
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      throw new Error("Người dùng đã tồn tại");
+    }
+    // Mã hóa mật khẩu
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new UserModel({
+      fullName,
+      email,
+      phoneNumber,
+      password: hashedPassword, // Lưu mật khẩu đã mã hóa
+    });
+
+    await newUser.save();
+    return newUser;
   } catch (error) {
     throw error;
   }

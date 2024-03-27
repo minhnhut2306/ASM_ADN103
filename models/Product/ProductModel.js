@@ -14,11 +14,6 @@ const ProductSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
     },
-    // species: {
-    //     type: String,
-    //     required: false,
-
-    // },
     size: {
         type: String,
         required: true,

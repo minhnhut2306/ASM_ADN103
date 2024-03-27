@@ -3,9 +3,9 @@ const router = express.Router();
 const { register, login } = require("../models/User/UserController");
 
 router.post("/register", async (req, res) => {
-  const { name, phone, email, password } = req.body;
+  const { fullName, phoneNumber, email, password } = req.body;
   try {
-    const existingUser = await register(name, email, phone, password);
+    const existingUser = await register(fullName, email, phoneNumber, password);
     if (existingUser) {
       return res.json({
         success: "Đăng ký thành công!",
@@ -20,8 +20,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/login", async (req, res) => {
-  const { email, password } = req.query;
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
   try {
     const user = await login(email, password);
     if (user) {

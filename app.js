@@ -1,8 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
+const cors = require('cors');
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 mongoose.connect('mongodb://localhost:27017/ASM_ADN103', {
   useNewUrlParser: true,
@@ -15,17 +16,19 @@ mongoose.connect('mongodb://localhost:27017/ASM_ADN103', {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(cors()); 
 
 app.use('/', indexRouter);
 
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.send('error');
+  res.json({
+    error: err.message || 'Internal Server Error'
+  });
 });
 
-// Start the server
-app.listen(3001, () => {
-  console.log(`Server is running on port 3001`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 module.exports = app;

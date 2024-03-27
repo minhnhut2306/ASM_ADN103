@@ -11,17 +11,7 @@ const getAll = async () => {
   }
 };
 
-const getParent = async () => {
-  try {
-    const parentProduct = await ProductModel.find({ category: null });
-    return parentProduct;
-  } catch (error) {
-    console.error("Lỗi", error);
-    throw error;
-  }
-};
-
-const getSub = async (category) => {
+const getByCategrory = async (category) => {
   try {
     const subProducts = await ProductModel.find({ category });
     return subProducts;
@@ -61,4 +51,4 @@ const remove = async (productId) => {
   }
 };
 
-module.exports = { getAll, getParent, getSub, insert, update, remove };
+module.exports = { getAll, getByCategrory, insert, update, remove };

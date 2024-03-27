@@ -19,7 +19,6 @@ const getParent = async () => {
     console.log(error);
   }
 };
-
 const getSub = async (parentId) => {
   try {
     const categories = await CategoryModule.find(parentId).populate(

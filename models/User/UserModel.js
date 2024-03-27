@@ -2,11 +2,11 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    name: {
+    fullName: {
         type: String,
         required: true
     },
-    phone: {
+    phoneNumber: {
         type: String,
         required: true,
         unique: true
@@ -18,14 +18,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    createAt: {
-        type: Date,
-        default: Date.now
-    },
-    updateAt: {
-        type: Date,
-        default: Date.now
     }
 });
 

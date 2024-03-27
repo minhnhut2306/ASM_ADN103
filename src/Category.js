@@ -20,8 +20,8 @@ router.get("/category/add", async function (req, res) {
 
 router.put("/category/update/:id", async (req, res) => {
   try {
-    const { categoryId, name, parentId } = req.body;
-    // const categoryId = req.params.id;
+    // const { categoryId, name, parentId } = req.body;
+    const categoryId = req.params.id;
     if (!categoryId || !name) {
       return res.status(400).json({
         message: "Vui lòng nhập id và tên",
