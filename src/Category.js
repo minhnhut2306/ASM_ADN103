@@ -17,11 +17,10 @@ router.get("/category/add", async function (req, res) {
     res.status(500).json({ error: "Lỗi" });
   }
 });
-
 router.put("/category/update/:id", async (req, res) => {
   try {
-    // const { categoryId, name, parentId } = req.body;
     const categoryId = req.params.id;
+    const { name, parentId } = req.body; 
     if (!categoryId || !name) {
       return res.status(400).json({
         message: "Vui lòng nhập id và tên",
@@ -34,18 +33,17 @@ router.put("/category/update/:id", async (req, res) => {
       category = await productService.update(categoryId, name, parentId);
     }
     res.status(200).json({
-      message: "Thêm thành công",
+      message: "Sửa thành công",
       category,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Thêm thất bại" });
+    res.status(500).json({ error: "Sửa thất bại" });
   }
 });
 
 router.delete("/category/delete/:id", async (req, res) => {
   try {
-    // const { categoryId } = req.body;
     const categoryId = req.params.id;
     const deletedCategory = await productService.remove(categoryId);
     if (!deletedCategory) {
@@ -61,5 +59,6 @@ router.delete("/category/delete/:id", async (req, res) => {
     res.status(500).json({ error: "Sửa thất bại" });
   }
 });
+
 
 module.exports = router;
